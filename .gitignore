@@ -1,0 +1,7 @@
+/.cabal-sandbox
+/cabal.sandbox.config
+/dist
+/log
+.ghci
+/snaplets/fay/js
+site_key.txt
