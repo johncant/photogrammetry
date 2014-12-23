@@ -37,10 +37,10 @@ Executable photogrammetry
     snaplet-fay               >= 0.3.3,
     fay                       >= 0.20    && < 0.21,
     fay-base                  >= 0.19    && < 0.20,
-    snap-blaze-clay           >= 0.1,
+    fay-jquery                >= 0.1,
     blaze-html                >= 0.5.1.3 && < 0.5.1.4,
     blaze-markup              >= 0.5.2.1 && < 0.5.2.2,
-    clay                      >= 0.6 && < 0.6.1,
+    clay                      >= 0.10 && < 0.10.1,
     transformers              >= 0.3.0.0 && < 0.3.0.1
 
   if flag(old-base)

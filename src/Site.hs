@@ -25,12 +25,19 @@ import           Snap.Util.FileServe
 import qualified Clay (render, putCss)
 import qualified Views
 import qualified Stylesheets
-import           Snap.Blaze (blaze)
+import qualified Templates
 import Control.Monad.IO.Class (liftIO)
 ------------------------------------------------------------------------------
 import           Application
 
+-- Ripped this out of snap-blaze-clay
+import Text.Blaze.Html (Html)
+import Text.Blaze.Html.Renderer.Utf8 (renderHtml)
 
+blaze :: MonadSnap m => Html -> m ()
+blaze response = do
+     modifyResponse $ addHeader "Content-Type" "text/html; charset=UTF-8"
+     writeLBS $ renderHtml response
 
 handleRoot :: Handler App App ()
 handleRoot = method GET (blaze Views.root)
@@ -42,12 +49,20 @@ handleCss = method GET $ do
   liftIO $ putStrLn "Rendered CSS"
   writeLazyText $ Clay.render Stylesheets.application
 
+handleTemplate :: Html -> Handler App App ()
+handleTemplate h = method GET (blaze h)
+
 ------------------------------------------------------------------------------
 -- | The application's routes.
 routes :: [(ByteString, Handler App App ())]
-routes = [ ("/",          handleRoot)
-         , ("/javascripts", with fay fayServe)
+routes = [ ("/javascripts/lib", serveDirectory "static/javascripts/lib")
+         , ("/javascripts/app", with fay fayServe)
          , ("/stylesheets/application.css", handleCss)
+         , ("/templates/index", handleTemplate Templates.index)
+         , ("/templates/about", handleTemplate Templates.about)
+         , ("/templates/reconstructions/new", handleTemplate Templates.newReconstruction)
+         , ("/templates/reconstructions/index", handleTemplate Templates.reconstructions)
+         , ("/",          handleRoot)
          --, ("",          serveDirectory "static")
          ]
 
