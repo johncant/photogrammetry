@@ -13,13 +13,13 @@ import Control.Lens
 import Snap.Snaplet
 import Snap.Snaplet.Auth
 import Snap.Snaplet.Session
-import Snap.Snaplet.Fay
+import Snap.Snaplet.Haste
 
 ------------------------------------------------------------------------------
 data App = App
     { _sess :: Snaplet SessionManager
     , _auth :: Snaplet (AuthManager App)
-    , _fay :: Snaplet Fay
+    , _haste :: Snaplet Haste
     }
 
 makeLenses ''App

@@ -13,7 +13,7 @@ module Views where
 import "base" Prelude hiding (head, div)
 import Text.Blaze.Html5
 import Text.Blaze.Html5.Attributes hiding (title, rows, accept)
-import qualified RouteHelpers as Path
+--import qualified RouteHelpers as Path
 --import qualified Text.Blaze.Html5.Attributes as A
 --import Text.Blaze.Renderer.Utf8 (renderHtml, renderHtmlToByteStringIO)
 
@@ -25,8 +25,9 @@ root = docTypeHtml $ do
       link ! rel "stylesheet" ! type_ "text/css" ! href "/stylesheets/application.css"
       script ! type_ "text/javascript" ! src "/javascripts/lib/angular.min.js" $ return ()
       script ! type_ "text/javascript" ! src "/javascripts/lib/angular-ui-router.min.js" $ return ()
+      script ! type_ "text/javascript" ! src "/javascripts/lib/angular-file-upload-all.min.js" $ return ()
       script ! type_ "text/javascript" ! src "/javascripts/app/application.js" $ return ()
-      base ! href "/" $ return ()
+      base ! href "/"
     body $ do
       div ! class_ "application_menu" $ do
         ul $ do
