@@ -9,4 +9,7 @@ computer vision knowledge.
   - Blaze (HTML)
   - Clay (CSS)
   - Fay (JS)
-  - DB TBC
+  - Unknown as DB
+
+# Oddities
+  - Copied react-haskell/lib/*.js into static/lib/ . Not sure how to serve these directly from package

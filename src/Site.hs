@@ -65,7 +65,7 @@ routes = [ ("/javascripts/lib", serveDirectory "static/javascripts/lib")
          , ("/templates/reconstructions/index", handleTemplate Templates.reconstructions)
          , ("/",          handleRoot)
          , ("/javascripts/app", with haste $ do
-             modify $ over (SH.snapletArgs) (++ ["--onexec"])
+             modify $ over (SH.snapletArgs) (++ []) --(++ ["--onexec"])
              SH.hasteServe
            )
          , ("",          serveDirectory "static")

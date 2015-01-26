@@ -1,32 +1,74 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, NamedFieldPuns, Rank2Types, TypeFamilies #-}
 
-import qualified Haste.Angular.Ng as Ng
-import           Haste.Angular.Providers.LocationProvider
-import qualified AngularUi.UiRouter as UI
 import Haste.Prim
+import Haste.DOM
+import React
 
-import Controllers.ImageUploaderController as CI
+--import Control.Applicative
+--import Control.Monad
+--import Prelude hiding (div)
+--
+--import Haste
+--import Haste.Foreign
+--import Haste.JSON
+--import Haste.Prim
+--import Lens.Family2
+--import Lens.Family2.Stock
+--import React
+----
+--import System.IO.Unsafe
 
-setupAppRoutes :: (JSString, JSString, JSString, UI.StateProvider -> UI.UrlRouterProvider -> LocationProvider -> IO ())
-setupAppRoutes = ("$stateProvider", "$urlRouterProvider", "$locationProvider", \stateProvider urlRouterProvider locationProvider -> do
+data Application = Application {
+    foo :: JSString
+  }
 
-  html5Mode locationProvider True
+instance ReactKey Application where
+  type ClassState Application = JSString
+  type AnimationState Application = ()
+  type Signal Application = JSString
 
-  urlRouterProvider <- UI.otherwise urlRouterProvider "/"
+transition :: JSString -> JSString -> (JSString, [AnimConfig Application])
+transition oldState signal = (signal, [])
 
-  stateProvider <- UI.state stateProvider "index" "/" "/templates/index" Nothing
-  stateProvider <- UI.state stateProvider "about" "/about" "/templates/about" Nothing
-  stateProvider <- UI.state stateProvider "new_reconstruction" "/reconstructions/new" "/templates/reconstructions/new" Nothing
-  stateProvider <- UI.state stateProvider "reconstructions" "/reconstructions" "/templates/reconstructions/index" Nothing
+--imageUploader :: React
+--imageUploader = do
+--  div_ [ class_ "image_uploader" ] $ do
+--    button_ $ do
+--      "Upload"
 
-  return ()
-  )
+index :: JSString -> React Application ()
+index s = do
+  h1_ "Reconstruct things"
+
+--about :: React
+--about = do
+--  h1_ "About this app"
+--
+--newReconstruction :: React
+--newReconstruction = do
+--  h2_ "Upload images to begin reconstruction"
+--  imageUploader
+--
+--reconstructions :: React
+--reconstructions = do
+--  h2_ "Find reconstructions"
+--
+--layout :: React
+--layout = do
+--  div_ [ class_ "application_menu" ] $ do
+--    ul_ $ do
+--      li_ [ a_ "New"] "new_reconstruction"
+--      li_ [ a_ "Browse"] "reconstructions"
+--      li_ [ a_ "About"] "about"
+--  div_ [ class_ "application_menu_spacer"]
+--  div_ [ class_ "page"]
 
 main = do
-  Ng.runAngular $ do
-    Ng.module' "photogrammetryApp" ["ui.router", "angularFileUpload"] (Nothing :: Maybe (IO ())) $ do
-      Ng.config setupAppRoutes
-      Ng.controller "ImageUploaderController" CI.setup
-
-  return ()
+--  withElem "app" $ \elem ->
+    mElem <- elemById "app"
+    case mElem of
+      Nothing -> putStrLn "not found"
+      Just elem -> do
+        render elem =<< createClass index transition "" () []
+        return ()
 
