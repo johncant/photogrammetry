@@ -1,8 +1,11 @@
-{-# LANGUAGE OverloadedStrings, NamedFieldPuns, Rank2Types, TypeFamilies #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 import Haste.Prim
 import Haste.DOM
+import Haste.Foreign
 import React
+
+import qualified Upload as U
 
 --import Control.Applicative
 --import Control.Monad
@@ -18,27 +21,28 @@ import React
 ----
 --import System.IO.Unsafe
 
-data Application = Application {
+data ApplicationState = ApplicationState {
     foo :: JSString
   }
 
-instance ReactKey Application where
-  type ClassState Application = JSString
-  type AnimationState Application = ()
-  type Signal Application = JSString
-
-transition :: JSString -> JSString -> (JSString, [AnimConfig Application])
-transition oldState signal = (signal, [])
-
+transition :: JSString -> ApplicationState -> (ApplicationState, [AnimConfig JSString ()])
+transition signal oldState = (oldState, [])
 --imageUploader :: React
 --imageUploader = do
 --  div_ [ class_ "image_uploader" ] $ do
 --    button_ $ do
 --      "Upload"
 
-index :: JSString -> React Application ()
+index :: ApplicationState -> React ApplicationState JSString () ()
 index s = do
-  h1_ "Reconstruct things"
+  div_ $ do
+    h1_ "Reconstruct things"
+    h1_ "Reconstruct moar things"
+
+--index' :: JSString -> React () ()
+--index' s = do
+--  h1_ "Reconstruct things"
+--  h1_ "Reconstruct moar things"
 
 --about :: React
 --about = do
@@ -63,12 +67,21 @@ index s = do
 --  div_ [ class_ "application_menu_spacer"]
 --  div_ [ class_ "page"]
 
+isFileAPISupported :: IO Bool
+isFileAPISupported = ffi "(function() { return !!(window.File && window.FileReader && window.FileList && window.Blob); })"
+
 main = do
 --  withElem "app" $ \elem ->
     mElem <- elemById "app"
     case mElem of
       Nothing -> putStrLn "not found"
       Just elem -> do
-        render elem =<< createClass index transition "" () []
+        fileAPISupported <- isFileAPISupported
+        case fileAPISupported of
+          False ->
+            render elem =<< U.noUploadClass
+          True -> do
+            render elem =<< U.uploadClass
+    --          render elem =<< createClass index transition (ApplicationState "") () []
         return ()
 

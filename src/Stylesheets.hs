@@ -13,6 +13,14 @@ module Stylesheets where
 import "base" Prelude hiding (head, div)
 import Clay
 
+upload :: Css
+upload = do
+  div # ".upload_drag" ? do
+    border dashed (px 2) "#0000FF"
+    backgroundColor "#CCCCCC"
+    width (px 400)
+    height (px 100)
+
 applicationMenu :: Css
 applicationMenu = div # ".application_menu" ? do
   backgroundColor "#AAAAAA"
@@ -50,6 +58,7 @@ application :: Css
 application = do
   applicationMenu
   applicationMenuSpacer
+  upload
   h1 ? do
     color "#ff0000"
 
