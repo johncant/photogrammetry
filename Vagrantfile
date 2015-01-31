@@ -11,8 +11,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu/trusty64"
+
+  # Avoid conflicts with certain other VMs
+  config.vm.network :forwarded_port,
+    guest: 22,
+    host: 2201,
+    id: "ssh",
+    auto_correct: true
+
   config.vm.synced_folder ".", "/home/vagrant/photogrammetry"
   config.vm.synced_folder "../snaplet-haste", "/home/vagrant/snaplet-haste"
+  config.vm.synced_folder "../react-haskell", "/home/vagrant/react-haskell"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -49,8 +58,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
 
   config.vm.provider "virtualbox" do |vb|
-    # Don't boot with headless mode
-    vb.gui = true
+    ## Don't boot with headless mode
+    #vb.gui = true
 
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "4096"]
