@@ -33,11 +33,12 @@ transition signal oldState = (oldState, [])
 --    button_ $ do
 --      "Upload"
 
-index :: ApplicationState -> React ApplicationState JSString () ()
-index s = do
+index :: ReactClass a b c -> ApplicationState -> React ApplicationState JSString () ()
+index uploadClass s = do
   div_ $ do
     h1_ "Reconstruct things"
     h1_ "Reconstruct moar things"
+    reactClass_ uploadClass []
 
 --index' :: JSString -> React () ()
 --index' s = do
@@ -78,10 +79,12 @@ main = do
       Just elem -> do
         fileAPISupported <- isFileAPISupported
         case fileAPISupported of
-          False ->
-            render elem =<< U.noUploadClass
+          False -> do
+            klass <- U.noUploadClass
+            render klass elem
           True -> do
-            render elem =<< U.uploadClass
-    --          render elem =<< createClass index transition (ApplicationState "") () []
+            uploadClass <- U.uploadClass
+            klass <- createClass (index uploadClass) transition (ApplicationState "") () []
+            render klass elem
         return ()
 

@@ -26,7 +26,7 @@ root = docTypeHtml $ do
 --      script ! type_ "text/javascript" ! src "/javascripts/lib/angular.min.js" $ return ()
 --      script ! type_ "text/javascript" ! src "/javascripts/lib/angular-ui-router.min.js" $ return ()
 --      script ! type_ "text/javascript" ! src "/javascripts/lib/angular-file-upload-all.min.js" $ return ()
-      script ! type_ "text/javascript" ! src "/javascripts/lib/react-0.12.2.min.js" $ return ()
+      script ! type_ "text/javascript" ! src "/javascripts/lib/react-0.12.2.js" $ return ()
       script ! type_ "text/javascript" ! src "/javascripts/lib/stubs.js" $ return ()
       script ! type_ "text/javascript" ! src "/javascripts/lib/bezier.js" $ return ()
       script ! type_ "text/javascript" ! src "/javascripts/app/application.js" $ return ()

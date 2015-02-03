@@ -47,6 +47,7 @@ function js_domEventTarget(obj) {return obj.domEventTarget;}
 function js_relatedTarget(obj) {return obj.relatedTarget;}
 
 function js_empty_object() {return {};}
+function js_empty_arr() {return [];}
 function js_set_field(obj, field, value) {obj[field] = value;}
 function js_set_field_True(obj, field, value) {obj[field] = true;}
 function js_set_field_False(obj, field, value) {obj[field] = false;}
@@ -241,6 +242,7 @@ function js_id(a) {return a;}
 // custom
 function js_React_DOM_leaf(name, a) { return React.DOM[name](a); }
 function js_React_DOM_parent(name, a, c) { return React.DOM[name](a, c); }
+function js_React_DOM_class(klass) { return React.createElement(klass, null); }
 
 function js_parseChangeEvent(raw) {
     // wrap the string in two constructors - Ptr and JSString
@@ -319,9 +321,12 @@ function js_raf(cb) {
     });
 }
 
-function js_createClass(render, setState) {
+function js_createClass(render, initialState, hs) {
     return React.createClass({
-        render: render
+        render: function() {
+          return render(hs, this.state);
+        },
+        getInitialState: function() { return initialState }
     });
 }
 
@@ -330,7 +335,8 @@ function js_bezier(x0, y0, x1, y1, x) {
 }
 
 function js_render(e, r){
-    React.render(e, r);
+    debugger
+    React.render(React.createElement(e, null), r);
 }
 
 function js_cancelRaf(id) {
