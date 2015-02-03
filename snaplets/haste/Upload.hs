@@ -40,7 +40,6 @@ uploadView :: UploadState -> React UploadState Signal () ()
 uploadView uploadState = do
   div_ [class_ "upload" ] $ do
     input_ [ type_ "file"
-           , multiple_ True
            , class_ "upload_button"
            , onChange handleFileSelect]
 --    button_ [class_ "upload_button"] "Upload images"
